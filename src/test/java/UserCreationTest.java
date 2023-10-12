@@ -34,6 +34,8 @@ public class UserCreationTest {
     @Description("Basic test for /api/auth/register endpoint")
     public void getNewUserSuccessCreationStatusCodeAndBody(){
         Response responseNewUserCreation = UserSteps.sendPostRequestUserCreation(new User(email, password, name));
+        accessToken = responseNewUserCreation.then().extract().path("accessToken");
+
         responseNewUserCreation.then().assertThat()
                 .statusCode(SC_OK)
                 .and()
@@ -43,8 +45,6 @@ public class UserCreationTest {
                 .body("user.name", equalTo(name))
                 .body("accessToken", notNullValue())
                 .body("refreshToken", notNullValue());
-
-        accessToken = responseNewUserCreation.then().extract().path("accessToken");
     }
 
     @Test
@@ -52,6 +52,7 @@ public class UserCreationTest {
     @Description("Already existing user creation test for /api/auth/register endpoint")
     public void getAlreadyExistingUserCreationStatusCodeAndBody() {
         Response responseNewUserCreation = UserSteps.sendPostRequestUserCreation(new User(email, password, name));
+        accessToken = responseNewUserCreation.then().extract().path("accessToken");
 
         Response responseAlreadyExistingUserCreation = UserSteps.sendPostRequestUserCreation(new User(email, password, name));
 
@@ -60,12 +61,9 @@ public class UserCreationTest {
                 .and()
                 .body("success", equalTo(false))
                 .body("message", equalTo("User already exists"));
-
-        accessToken = responseNewUserCreation.then().extract().path("accessToken");
     }
-
     @After
     public void dataClear() {
         UserSteps.deleteUser(accessToken);
     }
-   }
+}

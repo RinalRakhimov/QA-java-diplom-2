@@ -51,6 +51,5 @@ public class UserLoginParameterizedTest {
                 .and()
                 .body("success", equalTo(false))
                 .body("message", equalTo("email or password are incorrect"));
-        System.out.println(responseLogin.body().asString());
     }
 }

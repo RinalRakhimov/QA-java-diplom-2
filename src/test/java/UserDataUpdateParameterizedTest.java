@@ -13,7 +13,6 @@ import org.junit.runners.Parameterized;
 
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Parameterized.class)
@@ -29,7 +28,6 @@ public class UserDataUpdateParameterizedTest {
     public UserDataUpdateParameterizedTest(User user) {
         this.user = user;
     }
-
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
@@ -38,7 +36,6 @@ public class UserDataUpdateParameterizedTest {
         name = RandomStringUtils.randomAlphanumeric(4, 20);
         Response responseNewUserCreation = UserSteps.sendPostRequestUserCreation(new User(email, password, name));
         accessToken = responseNewUserCreation.then().extract().path("accessToken");
-        System.out.println(responseNewUserCreation.body().asString());
     }
 
     @Parameterized.Parameters
@@ -64,9 +61,6 @@ public class UserDataUpdateParameterizedTest {
                 .body("success", equalTo(true))
                 .body("user.email", equalTo(getUpdateUserData.then().extract().path("user.email")))
                 .body("user.name", equalTo(getUpdateUserData.then().extract().path("user.name")));
-
-        System.out.println(responseUpdateUserData.body().asString());
-
     }
 
     @Test
@@ -80,8 +74,6 @@ public class UserDataUpdateParameterizedTest {
                 .and()
                 .body("success", equalTo(false))
                 .body("message", equalTo("You should be authorised"));
-
-        System.out.println(responseUpdateUserData.body().asString());
     }
 
     @After

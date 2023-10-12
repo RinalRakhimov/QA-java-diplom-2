@@ -39,7 +39,6 @@ public class UserCreationParameterizedTest {
         };
     }
 
-
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";

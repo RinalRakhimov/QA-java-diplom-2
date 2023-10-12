@@ -22,21 +22,19 @@ public class UserLoginTest {
 
     @Before
     public void setUp() {
-
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
         email = RandomStringUtils.randomAlphanumeric(6, 10) + "@yandex.ru";
         password = RandomStringUtils.randomAlphanumeric(10, 20);
         name = RandomStringUtils.randomAlphanumeric(4, 20);
         UserSteps.sendPostRequestUserCreation(new User(email, password, name));
-
     }
 
     @Test
     @DisplayName("Check status code and body of /api/auth/login for exist user") // имя теста
     @Description("Basic test for /api/auth/login endpoint")
     public void getStatusCodeAndBodyForExistUserLogin(){
-
         Response responseLoginOfExistUser = UserSteps.sendPostRequestUserLogin(new User(email, password, null));
+        accessToken = responseLoginOfExistUser.then().extract().path("accessToken");
 
         responseLoginOfExistUser.then().assertThat()
                 .statusCode(SC_OK)
@@ -47,8 +45,6 @@ public class UserLoginTest {
                 .body("user", notNullValue())
                 .body("user.email", equalTo(email.toLowerCase()))
                 .body("user.name", equalTo(name));
-
-        accessToken = responseLoginOfExistUser.then().extract().path("accessToken");
     }
 
     @After

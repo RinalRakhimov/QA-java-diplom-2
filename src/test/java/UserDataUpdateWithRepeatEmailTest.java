@@ -53,10 +53,7 @@ public class UserDataUpdateWithRepeatEmailTest {
                 .and()
                 .body("success", equalTo(false))
                 .body("message", equalTo("User with such email already exists"));
-
-        System.out.println(responseUpdateSecondUserData.body().asString());
     }
-
     @After
     public void dataClear() {
         UserSteps.deleteUser(accessTokenFirstUser);

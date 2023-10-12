@@ -7,13 +7,11 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 public class UserSteps {
 
     private static final String CREATION_ENDPOINT = "/api/auth/register";
     private static final String LOGIN_ENDPOINT = "/api/auth/login";
-
     private static final String USER_GET_UPDATE_DELETE_ENDPOINT = "/api/auth/user";
 
     @Step("Send POST request to /api/auth/register")
